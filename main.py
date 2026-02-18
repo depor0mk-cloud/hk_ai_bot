@@ -26,9 +26,9 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# --- Инициализация Gemini ---
+# --- Инициализация Gemini с правильной моделью ---
 genai.configure(api_key=GEMINI_API_KEY)
-model = genai.GenerativeModel('gemini-1.5-flash-latest')
+model = genai.GenerativeModel('gemini-1.5-flash')  # ← Вот здесь я убрал "-latest"!
 
 # Проверка Gemini при запуске
 try:
@@ -166,7 +166,6 @@ def main():
 
     logger.info("Bot is running, waiting for webhook...")
 
-    # Если переменная RENDER = false, используем polling, иначе вебхук
     if os.getenv('RENDER', 'true').lower() == 'false':
         logger.info("Starting polling...")
         application.run_polling(allowed_updates=Update.ALL_TYPES)
